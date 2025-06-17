@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Packet Sniffer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Ethical Use Header -->
+        <div class="ethical-banner">
+            <div class="banner-content">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Educational Packet Sniffer</h1>
+                <p><strong>⚠️ ETHICAL USE ONLY ⚠️</strong> - For learning network protocols and security concepts</p>
+                <p>Only use on networks you own or have explicit permission to monitor</p>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="controls-section">
+                <h2><i class="fas fa-cogs"></i> Capture Controls</h2>
+                
+                <div class="control-group">
+                    <label for="interface-select">Network Interface:</label>
+                    <select id="interface-select">
+                        <option value="">Default Interface</option>
+                    </select>
+                    <button id="refresh-interfaces" class="btn btn-secondary">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label for="packet-filter">BPF Filter (optional):</label>
+                    <input type="text" id="packet-filter" placeholder="e.g., tcp port 80, udp, icmp">
+                    <small>Examples: "tcp port 80" (HTTP), "udp port 53" (DNS), "icmp" (ping)</small>
+                </div>
+
+                <div class="control-buttons">
+                    <button id="start-capture" class="btn btn-success">
+                        <i class="fas fa-play"></i> Start Capture
+                    </button>
+                    <button id="stop-capture" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop"></i> Stop Capture
+                    </button>
+                    <button id="clear-packets" class="btn btn-warning">
+                        <i class="fas fa-trash"></i> Clear Packets
+                    </button>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <h3><i class="fas fa-info-circle"></i> Status</h3>
+                <div class="status-info">
+                    <div class="status-item">
+                        <span class="status-label">Capture Status:</span>
+                        <span id="capture-status" class="status-inactive">Inactive</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Packets Captured:</span>
+                        <span id="packet-count">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Connection:</span>
+                        <span id="connection-status" class="status-inactive">Disconnected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packet Display Section -->
+        <div class="packet-section">
+            <div class="section-header">
+                <h2><i class="fas fa-network-wired"></i> Captured Packets</h2>
+                <div class="packet-controls">
+                    <button id="pause-display" class="btn btn-secondary">
+                        <i class="fas fa-pause"></i> Pause Display
+                    </button>
+                    <button id="export-packets" class="btn btn-info">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="packet-display">
+                <div class="packet-table-container">
+                    <table id="packet-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Time</th>
+                                <th>Protocol</th>
+                                <th>Source IP</th>
+                                <th>Source Port</th>
+                                <th>Destination IP</th>
+                                <th>Dest Port</th>
+                                <th>Length</th>
+                                <th>Flags</th>
+                                <th>Info</th>
+                            </tr>
+                        </thead>
+                        <tbody id="packet-tbody">
+                            <!-- Packets will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packet Details Modal -->
+        <div id="packet-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-search"></i> Packet Details</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="packet-details">
+                        <div class="detail-section">
+                            <h4>Basic Information</h4>
+                            <div id="basic-info"></div>
+                        </div>
+                        <div class="detail-section">
+                            <h4>Payload Preview</h4>
+                            <div id="payload-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <p><i class="fas fa-graduation-cap"></i> Educational Tool - Use Responsibly</p>
+                <p>Learn about network protocols, packet structure, and network security concepts</p>
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> This tool is for educational purposes only. 
+                    Unauthorized network monitoring may violate laws. Use only on networks you own or have explicit permission to monitor.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
